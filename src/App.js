@@ -1,26 +1,30 @@
-import logo from "./logo.svg";
+/** @format */
 import "./App.css";
+import React from "react";
+import HeaderComponent from "./commonComponents/header";
+import FooterComponent from "./commonComponents/footer";
+import { Switch, Route, Link } from "react-router-dom";
+import IfsServices from "./services/ifsServices";
+import LandingPageComponent from "./landingPageComponent";
 
-function App() {
-  return (
-    /*     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div> */
-    <div></div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <div>
+          <HeaderComponent />
+        </div>
+        <Switch>
+          <Route
+            exact
+            path={["/", "/#home"]}
+            component={LandingPageComponent}
+          />
+          <Route exact path='/ifsservices' component={IfsServices} />
+        </Switch>
+        <FooterComponent />
+      </div>
+    );
+  }
 }
-
 export default App;
