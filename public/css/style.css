@@ -1,9 +1,12 @@
-/*
-  Theme Name: eBusiness
-  Theme URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
-  Author: BootstrapMade.com
-  License: https://bootstrapmade.com/license/
-*/
+/**
+ * /*
+ *   Theme Name: eBusiness
+ *   Theme URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
+ *   Author: BootstrapMade.com
+ *   License: https://bootstrapmade.com/license/
+ *
+ * @format
+ */
 
 /*-----------------------------------------------------------------------------------
    CSS INDEX
@@ -242,11 +245,12 @@ div#preloader {
 
 .section-headline h2 {
   display: inline-block;
-  font-size: 40px;
+  font-size: calc(25px + 2vmin);
   font-weight: 600;
   margin-bottom: 70px;
   position: relative;
   text-transform: capitalize;
+  color: #00bcd4;
 }
 
 .section-headline h2::after {
@@ -567,7 +571,19 @@ div#preloader {
 
 .single-services > p {
   color: #333;
-  font-size: 14px;
+  font-size: 18px;
+}
+.all-Topic-header {
+  color: #00bcd4;
+  font-weight: bold;
+  font-size: calc(25px + 2vmin);
+  justify-content: center;
+  text-decoration-color: "underline";
+}
+
+.services-topic {
+  font-weight: bold;
+  color: #00bcd4;
 }
 
 /*----------------------------------------

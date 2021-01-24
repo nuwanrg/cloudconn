@@ -78,7 +78,6 @@ const HeaderComponent = () => {
           ref={anchorRef}
           aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup='true'
-          //onClick={handleToggle}
           onMouseOver={handleToggle}
           endIcon={<ArrowDropDownIcon />}>
           Services

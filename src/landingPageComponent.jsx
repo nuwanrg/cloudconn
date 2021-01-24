@@ -1,6 +1,5 @@
 /** @format */
 
-import "./App.css";
 import React from "react";
 import ContactUs from "./services/contactUs";
 
@@ -205,24 +204,27 @@ function LandingPageComponent() {
       {/* Start Service area */}
       <div id='services' className='services-area area-padding'>
         <div className='container'>
-          <div className='row'>
+          <div className='row' style={{ marginBottom: 30 }}>
             <div className='col-md-12 col-sm-12 col-xs-12'>
               <div className='section-headline services-head text-center'>
                 <h2>Our Services</h2>
               </div>
             </div>
           </div>
-          <div className='row text-center'>
-            {/* <div className='services-contents'> */}
-            {/* Start Left services */}
-            <div className='col-md-4 col-sm-4 col-xs-12'>
-              <div className='about-move'>
-                <div className='services-details'>
+          <div className='colomn '>
+            <div className='row' style={{ marginBottom: 20 }}>
+              <div className='col-md-6 col-sm-6 col-xs-12 '>
+                <a className='services-icon' href='#'>
+                  <img
+                    src='img/services/applicationDev.jpg'
+                    title='#applicationDev'
+                  />
+                </a>
+              </div>
+              <div className='col-md-6 col-sm-6 col-xs-12'>
+                <div className='about-move'>
                   <div className='single-services'>
-                    <a className='services-icon' href='#'>
-                      <i className='fa fa-code' />
-                    </a>
-                    <h4>Application developments</h4>
+                    <h2 className='services-topic'>Application developments</h2>
                     <p className='paragraph'>
                       Build, run, and operate cloud-native apps with us. Embrace
                       modern approaches like serverless, microservices, and
@@ -233,47 +235,51 @@ function LandingPageComponent() {
                     </p>
                   </div>
                 </div>
-                {/* end about-details */}
               </div>
             </div>
-            <div className='col-md-4 col-sm-4 col-xs-12'>
-              <div className='about-move'>
-                <div className='services-details'>
-                  <div className='single-services'>
-                    <a className='services-icon' href='/ifsservices'>
-                      <i className='fa fa-camera-retro' />
-                    </a>
-                    <h4>IFS Services</h4>
-                    <p className='paragraph'>
-                      At Cloudconn we want your business to focus on doing what
-                      it does best, so with our Services we make sure you don’t
-                      have to worry about managing your IFS Apps environments.
-                      You will benefit from having the full support and
-                      expertise from our consultants who take care of the
-                      technical management, and in cooperation with our partners
-                      we can offer you a fully hosted environment. Whether in a
-                      private or public cloud, we always look for a suitable
-                      solution that matches your specific needs. With Cloud
-                      managed Services we take care of any incidents or IFS
-                      change requests. We can empower you with our 24/7 support
-                      services from our highly skilled service desk, or via
-                      on-site consultancy. Get in touch with one of our experts
-                      to explore how we can elevate your business.
-                    </p>
-                  </div>
+            <div className='row' style={{ marginBottom: 20 }}>
+              <div className='col-md-6 col-sm-6 col-xs-12 '>
+                <div className='single-services'>
+                  <h2 className='services-topic'>IFS Services</h2>
+                  <p className='paragraph'>
+                    At Cloudconn we want your business to focus on doing what it
+                    does best, so with our Services we make sure you don’t have
+                    to worry about managing your IFS Apps environments. You will
+                    benefit from having the full support and expertise from our
+                    consultants who take care of the technical management, and
+                    in cooperation with our partners we can offer you a fully
+                    hosted environment. Whether in a private or public cloud, we
+                    always look for a suitable solution that matches your
+                    specific needs. With Cloud managed Services we take care of
+                    any incidents or IFS change requests. We can empower you
+                    with our 24/7 support services from our highly skilled
+                    service desk, or via on-site consultancy. Get in touch with
+                    one of our experts to explore how we can elevate your
+                    business.
+                  </p>
                 </div>
-                {/* end about-details */}
+              </div>
+              <div className='col-md-6 col-sm-6 col-xs-12 '>
+                <div className='about-move'>
+                  <a className='services-icon' href='/ifsservices'>
+                    <img
+                      src='img/services/ifsServices.jpg'
+                      title='#ifsService'
+                    />
+                  </a>
+                </div>
               </div>
             </div>
-            <div className='col-md-4 col-sm-4 col-xs-12'>
-              {/* end col-md-4 */}
-              <div className='about-move'>
-                <div className='services-details'>
+            <div className='row' style={{ marginBottom: 20 }}>
+              <div className='col-md-6 col-sm-6 col-xs-12 '>
+                <a className='services-icon' href='#'>
+                  <img src='img/services/wso2.jpg' title='#wso2' />
+                </a>
+              </div>
+              <div className='col-md-6 col-sm-6 col-xs-12 '>
+                <div className='about-move'>
                   <div className='single-services'>
-                    <a className='services-icon' href='#'>
-                      <i className='fa fa-wordpress' />
-                    </a>
-                    <h4>WSO2 Support</h4>
+                    <h2 className='services-topic'>WSO2 Support</h2>
                     <p className='paragraph'>
                       Integration based on open standards is the ultimate
                       combination, but things can get complex very quickly. Not
@@ -289,12 +295,10 @@ function LandingPageComponent() {
                     </p>
                   </div>
                 </div>
-                {/* end about-details */}
               </div>
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
       {/* End Service area */}
       {/* our-skill-area start */}
