@@ -13,6 +13,7 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -29,9 +30,11 @@ const HeaderComponent = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
+
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -71,10 +74,13 @@ const HeaderComponent = () => {
         </Button>
         <Button
           color='inherit'
+          href='/#services'
           ref={anchorRef}
           aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup='true'
-          onClick={handleToggle}>
+          //onClick={handleToggle}
+          onMouseOver={handleToggle}
+          endIcon={<ArrowDropDownIcon />}>
           Services
         </Button>
         <Popper
@@ -97,9 +103,16 @@ const HeaderComponent = () => {
                     id='menu-list-grow'
                     onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose}>
+                      <Button href='/applicationDev'>
+                        Application developments
+                      </Button>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
                       <Button href='/ifsservices'>IFS Services</Button>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Other Services</MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Button href='/wso2Support'>WSO2 Support</Button>
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

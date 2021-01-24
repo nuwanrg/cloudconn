@@ -240,10 +240,10 @@ function LandingPageComponent() {
               <div className='about-move'>
                 <div className='services-details'>
                   <div className='single-services'>
-                    <a className='services-icon' href='#'>
+                    <a className='services-icon' href='/ifsservices'>
                       <i className='fa fa-camera-retro' />
                     </a>
-                    <h4>IFS Support</h4>
+                    <h4>IFS Services</h4>
                     <p className='paragraph'>
                       At Cloudconn we want your business to focus on doing what
                       it does best, so with our Services we make sure you don’t
