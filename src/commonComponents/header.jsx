@@ -1,6 +1,6 @@
 /** @format */
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -8,46 +8,146 @@ import Button from "@material-ui/core/Button";
 import CloudIcon from "@material-ui/icons/Cloud";
 import Link from "@material-ui/core/Link";
 import MenuItem from "@material-ui/core/MenuItem";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuList from "@material-ui/core/MenuList";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
+
+const StyledMenu = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 
 const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 0.75,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+
   title: {
     flexGrow: 1,
     padding: 10,
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
   },
-
-  paper: {
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
     marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 
 const HeaderComponent = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const anchorRef = React.useRef(null);
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseDropDown = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
 
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -57,245 +157,127 @@ const HeaderComponent = () => {
     prevOpen.current = open;
   }, [open]);
 
-  return (
-    <AppBar position='fixed' style={{ background: "#333" }}>
-      <Toolbar>
-        <CloudIcon></CloudIcon>
-        <Typography variant='h5' color='inherit' className={classes.title}>
-          <Link href='/' color='inherit'>
-            CloudConn
-          </Link>
-        </Typography>
+  const renderMenu = (
+    <StyledMenu
+      id='customized-menu'
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleCloseDropDown}>
+      <StyledMenuItem>
+        <Button href='/applicationDev'>Application developments</Button>
+      </StyledMenuItem>
+      <StyledMenuItem>
+        <Button href='/ifsservices'>IFS Services</Button>
+      </StyledMenuItem>
+      <StyledMenuItem>
+        <Button href='/wso2Support'>WSO2 Support</Button>
+      </StyledMenuItem>
+    </StyledMenu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}>
+      <MenuItem>
         <Button color='inherit' href='/#home'>
           Home
         </Button>
+      </MenuItem>
+      <MenuItem>
         <Button color='inherit' href='/#about'>
           About
         </Button>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
         <Button
           color='inherit'
           href='/#services'
           ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
+          aria-controls={open ? "primary-search-account-menu" : undefined}
           aria-haspopup='true'
           onMouseOver={handleToggle}
-          endIcon={<ArrowDropDownIcon />}>
+          endIcon={<ArrowLeftIcon />}>
           Services
         </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}>
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id='menu-list-grow'
-                    onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>
-                      <Button href='/applicationDev'>
-                        Application developments
-                      </Button>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Button href='/ifsservices'>IFS Services</Button>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Button href='/wso2Support'>WSO2 Support</Button>
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-
+      </MenuItem>
+      <MenuItem>
         <Button color='inherit' href='/#career'>
           Career
         </Button>
+      </MenuItem>
+      <MenuItem>
         <Button color='inherit' href='/#contact'>
           Contact
         </Button>
-      </Toolbar>
-    </AppBar>
+      </MenuItem>
+    </Menu>
+  );
+
+  return (
+    <div className={classes.grow}>
+      <AppBar position='fixed' style={{ background: "#333" }}>
+        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+          <div className='container'>
+            <Toolbar>
+              <CloudIcon />
+              <Typography
+                variant='h4'
+                color='inherit'
+                className={classes.title}>
+                <Link href='/' color='inherit'>
+                  CloudConn
+                </Link>
+              </Typography>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <Button color='inherit' href='/#home'>
+                  Home
+                </Button>
+                <Button color='inherit' href='/#about'>
+                  About
+                </Button>
+                <Button
+                  aria-controls='customized-menu'
+                  aria-haspopup='true'
+                  color='inherit'
+                  href='/#services'
+                  onMouseOver={handleClick}
+                  endIcon={<ArrowDropDownIcon />}>
+                  Services
+                </Button>
+
+                <Button color='inherit' href='/#career'>
+                  Career
+                </Button>
+                <Button color='inherit' href='/#contact'>
+                  Contact
+                </Button>
+              </div>
+              <div className={classes.sectionMobile}>
+                <IconButton
+                  aria-label='show more'
+                  aria-controls={mobileMenuId}
+                  aria-haspopup='true'
+                  onClick={handleMobileMenuOpen}
+                  color='inherit'>
+                  <MoreIcon />
+                </IconButton>
+              </div>
+            </Toolbar>
+          </div>
+        </div>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </div>
   );
 };
 export default HeaderComponent;
-// import Navbar from "react-bootstrap/Navbar";
-// import Nav from "react-bootstrap/Nav";
-// import NavDropdown from "react-bootstrap/NavDropdown";
-//import React from 'react';
-// <Navbar
-//   fixed='top'
-//   collapseOnSelect
-//   expand='lg'
-//   // bg='dark'
-//   variant='dark'
-//   className='header-box-1'>
-//   <div className='container'>
-//     <Navbar.Brand href='#home'>
-//       <img
-//         alt=''
-//         src='img/the-cloud.jpg'
-//         width='30'
-//         height='30'
-//         className='d-inline-block align-top'
-//       />
-//       CloudConn
-//     </Navbar.Brand>
-//     <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-//     <Navbar.Collapse id='responsive-navbar-nav'>
-//       <Nav className='mr-auto'></Nav>
-//       <Nav>
-//         <Nav.Link href='/'>Home</Nav.Link>
-//         <Nav.Link href='/#about'>About</Nav.Link>
-//         <NavDropdown title='Services' id='basic-nav-dropdown'>
-//           <NavDropdown.Item href='/ifsservices'>
-//             IFS Services
-//           </NavDropdown.Item>
-//           <br></br>
-//           <NavDropdown.Item href='#action/3.2'>
-//             Another action
-//           </NavDropdown.Item>
-//         </NavDropdown>
-//         {/* <Nav.Link href='/#services'>Services</Nav.Link> */}
-//         <Nav.Link href='/#career'> Career</Nav.Link>
-//         <Nav.Link href='/#contact'> Contact</Nav.Link>
-//       </Nav>
-//     </Navbar.Collapse>
-//   </div>
-// </Navbar>
-
-// <div>
-//   <div id='sticker' className='header-area stick' style={{}}>
-//     <div className='container'>
-//       <div className='row'>
-//         <div className='col-md-12 col-sm-12'>
-//           {/* Navigation */}
-//           <nav className='navbar navbar-default'>
-//             {/* Brand and toggle get grouped for better mobile display */}
-//             <div className='navbar-header'>
-//               <button
-//                 type='button'
-//                 className='navbar-toggle collapsed'
-//                 data-toggle='collapse'
-//                 data-target='.bs-example-navbar-collapse-1'
-//                 aria-expanded='true'>
-//                 <span className='sr-only'>Toggle navigation</span>
-//                 <span className='icon-bar' />
-//                 <span className='icon-bar' />
-//                 <span className='icon-bar' />
-//               </button>
-//               {/* Brand */}
-//               <a
-//                 className='navbar-brand page-scroll sticky-logo'
-//                 href='/home'>
-//                 <h1>
-//                   <span />
-//                   CloudConn
-//                 </h1>
-//                 {/* Uncomment below if you prefer to use an image logo */}
-//                 {/* <img src="img/logo.png" alt="" title=""> */}
-//               </a>
-//             </div>
-//             {/* Collect the nav links, forms, and other content for toggling */}
-//             <div
-//               className='collapse navbar-collapse main-menu bs-example-navbar-collapse-1'
-//               id='navbar-example'>
-//               <ul className='nav navbar-nav navbar-right'>
-//                 s{" "}
-//                 <li className='nav-item'>
-//                   <Link to={"/home"} className='nav-link'>
-//                     Home
-//                   </Link>
-//                 </li>
-//                 <li>
-//                   <a className='page-scroll' href='#about'>
-//                     About
-//                   </a>
-//                 </li>
-//                 <li className='nav'>
-//                   <a>
-//                     <NavDropdown title='Services' id='basic-nav-dropdown'>
-//                       <NavDropdown.Item href='/ifsservices'>
-//                         IFS Services
-//                       </NavDropdown.Item>
-//                       <br></br>
-//                       <NavDropdown.Item href='#action/3.2'>
-//                         Another action
-//                       </NavDropdown.Item>
-//                     </NavDropdown>
-//                   </a>
-//                   {/*                         <a className='dropdown'>
-//                     <button
-//                       className='navbar-inverse dropdown'
-//                       type='button'
-//                       id='dropdownMenu1'
-//                       data-toggle='dropdown'
-//                       aria-haspopup='false'
-//                       aria-expanded='true'>
-//                       Services
-//                       <span />
-//                     </button>
-//                     <ul className='dropdown-menu'>
-//                       <li>
-//                         <Link to={"/ifsservices"} className='nav-link'>
-//                           IFS Services
-//                         </Link>
-//                       </li>
-//                       <li>
-//                         <a href='#'>Another action</a>
-//                       </li></ul> </a> */}
-//                 </li>
-//                 <li>
-//                   <a className='page-scroll' href='#services'>
-//                     Services
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a className='page-scroll' href='#career'>
-//                     Career
-//                   </a>
-//                 </li>
-//                 {/*
-//           <li>
-//             <a class="page-scroll" href="#team">Team</a>
-//           </li>
-//           <li>
-//             <a class="page-scroll" href="#portfolio">Portfolio</a>
-//           </li>
-
-//           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Drop Down<span class="caret"></span></a>
-//             <ul class="dropdown-menu" role="menu">
-//               <li><a href=# >Drop Down 1</a></li>
-//               <li><a href=# >Drop Down 2</a></li>
-//             </ul>
-//           </li>
-
-//           <li>
-//             <a class="page-scroll" href="#blog">Blog</a>
-//           </li>*/}
-//                 <li>
-//                   <a className='page-scroll' href='#contact'>
-//                     Contact
-//                   </a>
-//                 </li>
-//               </ul>
-//             </div>
-//             {/* navbar-collapse */}
-//           </nav>
-//           {/* END: Navigation */}
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </div>
